@@ -1,4 +1,5 @@
-﻿using POC_API.Models;
+﻿using MongoDB.Bson;
+using POC_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,32 +12,41 @@ namespace POC_API.Controllers
     public class TestController : ApiController
     {
         // GET: api/Test
-        public IEnumerable<string> Get()
+        public IEnumerable<Person> Get()
         {
-            return new string[] { "value1", "value2" };
+            var dataBase = new Repository<Person>("persons");
+            return dataBase.List();
         }
 
         // GET: api/Test/5
-        public string Get(int id)
+        public Person Get(string id)
         {
-            var dataBase = new DataBase();
-            dataBase.Connect();
-            return "value";
+            var dataBase = new Repository<Person>("persons");
+            return dataBase.FindById(new ObjectId(id));
         }
 
-        // POST: api/Test
-        public void Post([FromBody]string value)
+        // POST: api/Test/id
+        public void Post(string id, [FromBody]Person value)
         {
+            value._id = new ObjectId(id);
+            var dataBase = new Repository<Person>("persons");
+            if (dataBase.FindById(value._id) == null) dataBase.Add(value);
+            else dataBase.Update(value);
         }
 
         // PUT: api/Test/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody]Person value)
         {
+            var dataBase = new Repository<Person>("persons");
+            if(value._id.ToString()=="") dataBase.Update(value);
+            else dataBase.Update(value);
         }
 
         // DELETE: api/Test/5
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            var dataBase = new Repository<Person>("persons");
+            dataBase.Delete(new ObjectId(id));
         }
     }
 }
