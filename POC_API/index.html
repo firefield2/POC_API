@@ -33,7 +33,7 @@
             </div>
             <div class="col-xs-6 text-left">
                 <form id="mainForm">
-                    <input type="hidden" name="_id" value="0" id="_id" />
+                    <input type="hidden" name="_id" value="" id="_id" />
                     <div class="form-group">
                         <label for="firstNameTB">Imię:</label>
                         <input type="text" name="FirstName" class="form-control" id="firstNameTB">
@@ -88,7 +88,7 @@
             });
         }
         function clearButtonClick() {
-            $("#_id").val("0");
+            $("#_id").val("");
             $("#lastNameTB").val("");
             $("#firstNameTB").val("");
             $("#phoneTB").val("");

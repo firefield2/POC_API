@@ -24,22 +24,25 @@ namespace POC_API.Controllers
             var dataBase = new Repository<Person>("persons");
             return dataBase.FindById(new ObjectId(id));
         }
+        // POST: api/Test
+        public void Post([FromBody]Person value)
+        {
+            var dataBase = new Repository<Person>("persons");
+            dataBase.Add(value);
+
+        }
 
         // POST: api/Test/id
         public void Post(string id, [FromBody]Person value)
         {
             value._id = new ObjectId(id);
             var dataBase = new Repository<Person>("persons");
-            if (dataBase.FindById(value._id) == null) dataBase.Add(value);
-            else dataBase.Update(value);
+            dataBase.Update(value);
         }
 
         // PUT: api/Test/5
         public void Put(string id, [FromBody]Person value)
         {
-            var dataBase = new Repository<Person>("persons");
-            if(value._id.ToString()=="") dataBase.Update(value);
-            else dataBase.Update(value);
         }
 
         // DELETE: api/Test/5
